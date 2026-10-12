@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AI Assistant"
+description = "A simple AI chat app for asking questions, getting helpful replies, and keeping a readable conversation in one place."
+version = "1.0.0"
+id = "artifacts/ai-assistant"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19570
+
+[services.development]
+run = "pnpm --filter @workspace/ai-assistant run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ai-assistant", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/ai-assistant/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19570"
+BASE_PATH = "/"
